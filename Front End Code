@@ -1,0 +1,55 @@
+## HTML & JavaScript For Frontend Code
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Users Flask Application</title>
+</head>
+<body>
+    <h1>Simple Flask Application</h1>
+
+    <h2>Create Users</h2>
+    <form id="createUserForm">
+        <input type="text" id="name" placeholder="Enter your name" required>
+        <input type="text" id="email" placeholder="Enter your email" required>
+        <button type="submit">Create User</button>   
+    </form>
+
+    <h2>View Users</h2>
+    <button id="getUserBtn">Get Users</button>
+
+    <pre id="getResult"></pre>
+
+    <script>
+        document.getElementById("createUserForm").addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get the values from the form
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            
+            // Perform the POST request to create a new user
+            fetch('/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("createResult").innerText = JSON.stringify(data, null, 2);
+            });
+        });
+
+        document.getElementById("getUserBtn").addEventListener('click', function() {
+            // Perform the GET request to retrieve users
+            fetch('/users')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('getResult').innerText = JSON.stringify(data, null, 2);
+            });
+        });
+    </script>
+</body>
+</html>
+  
